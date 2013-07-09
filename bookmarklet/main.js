@@ -73,7 +73,6 @@
         }
       }
 
-      roots.pop()
       return roots
     }
 
@@ -92,6 +91,7 @@
     forEach(roots, function(root) {
       var mod = seajs.cache[root]
       var node = createNode(root)
+        console.info('root', root, mod, node)
       addDep(node, mod)
     })
 
