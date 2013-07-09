@@ -49,6 +49,7 @@
       return /_use_\d+$/.test(id)
     }
 
+    // TODO cache node
     function createNode(id, methods, attrs) {
 
         var opts = {
@@ -71,20 +72,33 @@
           roots.push(key)
         }
       }
+
+      roots.pop()
       return roots
+    }
+
+    function addDep(node, mod) {
+      if (mod.dependencies.length) {
+        forEach(mod.dependencies, function(dep) {
+          var subNode = createNode(dep)
+          node.joint(subNode, uml.arrow)
+          addDep(subNode, seajs.cache[dep])
+        })
+      }
     }
 
     var roots = findRoots(), mod, node, deps
 
-    for(var i = 0, len = roots.length; i < len; i++) {
-      mod = seajs.cache[roots[i]]
-      node = createNode(roots[i])
-      deps  = mod.dependencies
+    forEach(roots, function(root) {
+      var mod = seajs.cache[root]
+      var node = createNode(root)
+      addDep(node, mod)
+    })
 
-      // Temp solution
-      deps.forEach(function(dep) {
-         node.joint(createNode(dep), uml.arrow)
-      })
+    function forEach(arrs, cb) {
+      for (var i = 0, len = arrs.length; i < len; i++) {
+        cb(arrs[i], i)
+      }
     }
   })
 }())
