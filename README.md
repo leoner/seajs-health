@@ -29,9 +29,8 @@ var healthData = seajs.health()
 
 Bookmarklet
 ------
-<a href="baidu.com">baidu</a>
 
-<a href="javascript:(function() {alert(1)})">book</a>
+[Bookmarklet](http://seajs-health.github.io/seajs-health/bookmarklet.html)
 
 
 For more details please visit [中文文档](https://github.com/seajs/seajs-health/issues/2)
