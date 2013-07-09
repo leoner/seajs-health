@@ -9,6 +9,7 @@
     var graph = document.getElementById(id)
     graph.style.width = w + 'px';
     graph.style.height = h + 'px';
+    graph.style.border = '1px solid blue'
   }
 
   seajs.use('https://raw.github.com/leoner/seajs-health/master/bookmarklet/joint.all.min.js', function() {
