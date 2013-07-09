@@ -24,21 +24,21 @@
     var ry = 20
     var lx = 120
     var ly = 20
-    var width = 100
+    var width = 300
     var height = 60
 
     function getRect(isRoot) {
         if (isRoot) {
             return {
                 x: rx,
-                y: ry+=150,
+                y: ry+=550,
                 width: width,
                 height: height
             }
         } else {
             return {
                 x: lx,
-                y: ly+=150,
+                y: ly+=550,
                 width: width,
                 height: height
             }
