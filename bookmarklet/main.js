@@ -73,11 +73,13 @@
         }
       }
 
+      roots.pop()
+
       return roots
     }
 
     function addDep(node, mod) {
-        console.info('----------', arguments.length)
+      if (!mod) return
       if (mod.dependencies.length) {
         forEach(mod.dependencies, function(dep) {
           var subNode = createNode(dep)
@@ -92,7 +94,6 @@
     forEach(roots, function(root) {
       var mod = seajs.cache[root]
       var node = createNode(root)
-        console.info('root', root, mod, node)
       addDep(node, mod)
     })
 
