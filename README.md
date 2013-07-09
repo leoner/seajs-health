@@ -29,7 +29,9 @@ var healthData = seajs.health()
 
 Bookmarklet
 ------
-[dependencies_graph](javascript:function\(\){alert\(1\)} "dependencies_graph")
+<a href="baidu.com">baidu</a>
+
+<a href="javascript:(function() {alert(1)})">book</a>
 
 
 For more details please visit [中文文档](https://github.com/seajs/seajs-health/issues/2)
