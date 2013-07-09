@@ -77,10 +77,12 @@
     }
 
     function addDep(node, mod) {
+        console.info('----------', arguments.length)
       if (mod.dependencies.length) {
         forEach(mod.dependencies, function(dep) {
           var subNode = createNode(dep)
           node.joint(subNode, uml.arrow)
+          console.info('dep---------->', dep)
           addDep(subNode, seajs.cache[dep])
         })
       }
