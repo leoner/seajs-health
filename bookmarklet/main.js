@@ -82,8 +82,7 @@
         forEach(mod.dependencies, function(dep) {
           var subNode = createNode(dep)
           node.joint(subNode, uml.arrow)
-          console.info('dep---------->', dep)
-          addDep(subNode, seajs.cache[dep])
+          addDep(subNode, seajs.cache[mod.resolve(dep)])
         })
       }
     }
