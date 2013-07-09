@@ -52,7 +52,7 @@
     function createNode(id, methods, attrs) {
 
         var opts = {
-            rect: getRect(isRoot(id))
+            rect: getRect(isRoot(id)),
             attrs: {
               fill: "90-#000-green:1-#fff"
             },
