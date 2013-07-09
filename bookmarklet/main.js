@@ -24,14 +24,16 @@
     var ry = 20
     var lx = 120
     var ly = 20
-    var width = 300
+    var width = 200
     var height = 60
 
-    function getRect(isRoot) {
+    var depth = 0
+
+    function getRect(isRoot, level) {
         if (isRoot) {
             return {
                 x: rx,
-                y: ry+=250,
+                y: ry+=(250 * level),
                 width: width,
                 height: height
             }
@@ -50,10 +52,10 @@
     }
 
     // TODO cache node
-    function createNode(id, methods, attrs) {
+    function createNode(id, level) {
 
         var opts = {
-            rect: getRect(isRoot(id)),
+            rect: getRect(isRoot(id), level),
             attrs: {
               fill: "90-#000-green:1-#fff"
             },
@@ -79,10 +81,12 @@
 
     function addDep(node, mod) {
       if (!mod) return
+      depth++
+
+      var level = depth
       if (mod.dependencies.length) {
         forEach(mod.dependencies, function(dep) {
-          var subNode = createNode(dep)
-          console.info('--1---->', mod.id, dep)
+          var subNode = createNode(dep, level)
           node.joint(subNode, uml.arrow)
           addDep(subNode, seajs.cache[mod.resolve(dep)])
         })
