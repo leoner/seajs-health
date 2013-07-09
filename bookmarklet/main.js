@@ -83,7 +83,7 @@
 
       // Temp solution
       deps.forEach(function(dep) {
-         mod.joint(createNode(dep), uml.arrow)
+         node.joint(createNode(dep), uml.arrow)
       })
     }
   })
