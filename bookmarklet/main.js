@@ -31,14 +31,14 @@
         if (isRoot) {
             return {
                 x: rx,
-                y: ry+=550,
+                y: ry+=250,
                 width: width,
                 height: height
             }
         } else {
             return {
                 x: lx,
-                y: ly+=550,
+                y: ly+=250,
                 width: width,
                 height: height
             }
@@ -73,7 +73,6 @@
         }
       }
 
-      roots.pop()
 
       return roots
     }
@@ -83,6 +82,7 @@
       if (mod.dependencies.length) {
         forEach(mod.dependencies, function(dep) {
           var subNode = createNode(dep)
+          console.info('--1---->', mod.id, dep)
           node.joint(subNode, uml.arrow)
           addDep(subNode, seajs.cache[mod.resolve(dep)])
         })
