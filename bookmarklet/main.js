@@ -1,3 +1,7 @@
+/**
+ * TODO 1. create dependencies tree
+ * TODO 2. draw graph
+ */
 (function() {
   var div = document.createElement('div')
   var id = 'dependencies_graph'
