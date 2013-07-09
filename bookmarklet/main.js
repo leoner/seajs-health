@@ -16,7 +16,7 @@
 
   seajs.use('https://raw.github.com/leoner/seajs-health/master/bookmarklet/joint.all.min.js', function() {
 
-    dimension(800, 400);
+    dimension(800, 1000);
     var uml = Joint.dia.uml;
     var paper = Joint.paper("dependencies_graph", 800, 400);
 
