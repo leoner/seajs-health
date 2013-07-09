@@ -18,7 +18,7 @@
 
     dimension(800, 1000);
     var uml = Joint.dia.uml;
-    var paper = Joint.paper("dependencies_graph", 800, 400);
+    var paper = Joint.paper("dependencies_graph", 800, 1000);
 
     var rx = 20
     var ry = 20
@@ -73,7 +73,7 @@
         }
       }
 
-
+      roots.pop()
       return roots
     }
 
