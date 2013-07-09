@@ -27,4 +27,9 @@ var healthData = seajs.health()
 </script>
 ```
 
+Bookmarklet
+------
+[dependencies_graph](javascript:function\(\){alert\(1\)} "dependencies_graph")
+
+
 For more details please visit [中文文档](https://github.com/seajs/seajs-health/issues/2)
