@@ -43,8 +43,18 @@
   }
 
 
+  function isRoot(id) {
+    return /_use_\d+$/.test(id)
+  }
+
+  function forEach(arrs, cb) {
+    for (var i = 0, len = arrs.length; i < len; i++) {
+      cb(arrs[i], i)
+    }
+  }
+  
+  var graph = new Graph()
   function getCircles() {
-    var graph = new Graph()
     var roots = []
 
     for (var key in seajs.cache) {
