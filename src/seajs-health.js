@@ -58,6 +58,9 @@
     var roots = []
 
     for (var key in seajs.cache) {
+       console.info('--------->', key)
+          console.info('--->', graph)
+          window.graph = graph
       if (isRoot(key)) {
         var mod = seajs.cache[key]
         var node = graph.add(key)
@@ -76,8 +79,6 @@
       node.addEdge(subNode)
       addDep(subNode, seajs.cache[mod.resolve(subId)])
     })
-
-    window.graph = graph
   }
 
   // Helpers
