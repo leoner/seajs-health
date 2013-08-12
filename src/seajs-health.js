@@ -53,25 +53,7 @@
     }
   }
   
-  window.Graph = Graph
-  var graph = new Graph()
-  function getCircles() {
-    var roots = []
-
-    for (var key in seajs.cache) {
-       console.info('--------->', key)
-          console.info('--->', graph)
-          window.graph = graph
-      if (isRoot(key)) {
-        var mod = seajs.cache[key]
-        var node = graph.add(key)
-        addDep(node, mod)
-      }
-    }
-
-    return "NOT Available"
-  }
-
+  
   function addDep(node, mod) {
     if (!mod) return
 
@@ -238,6 +220,25 @@
     console.info(nodes.map(function(node) {
       return node.name
     }))
+  }
+
+
+  var graph = new Graph()
+  function getCircles() {
+    var roots = []
+
+    for (var key in seajs.cache) {
+       console.info('--------->', key)
+          console.info('--->', graph)
+          window.graph = graph
+      if (isRoot(key)) {
+        var mod = seajs.cache[key]
+        var node = graph.add(key)
+        addDep(node, mod)
+      }
+    }
+
+    return "NOT Available"
   }
 
 })(seajs);
