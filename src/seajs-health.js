@@ -53,6 +53,7 @@
     }
   }
   
+  window.Graph = Graph
   var graph = new Graph()
   function getCircles() {
     var roots = []
