@@ -17,10 +17,11 @@
     graph.style.border = '1px solid blue'
     graph.style.margin = '150px'
   }
-  var d3 = 'https://raw.github.com/leoner/seajs-health/master/bookmarklet/d3.v3.min.js'
-  var app = 'https://raw.github.com/leoner/seajs-health/master/bookmarklet/app.js'
-  var d3Css = 'https://raw.github.com/leoner/seajs-health/master/bookmarklet/d3.css'
-  var health = 'https://raw.github.com/leoner/seajs-health/master/src/seajs-health.js'
+  var d3 = 'http://localhost:8000/bookmarklet/d3.v3.min.js'
+  // var app = 'https://raw.github.com/leoner/seajs-health/master/bookmarklet/app.js'
+   var app = 'http://localhost:8000/bookmarklet/app.js'
+  var d3Css = 'http://localhost:8000/bookmarklet/d3.css'
+  var health = 'http://localhost:8000/src/seajs-health.js'
 
   seajs.use([d3, health, d3Css], function() {
      seajs.use(app, function() {
