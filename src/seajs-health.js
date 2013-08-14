@@ -43,47 +43,6 @@
   }
 
 
-  function isRoot(id) {
-    return /_use_\d+$/.test(id)
-  }
-
-  function forEach(arrs, cb) {
-    for (var i = 0, len = arrs.length; i < len; i++) {
-      cb(arrs[i], i)
-    }
-  }
-  
-  
-  function addDep(node, mod) {
-    if (!mod) return
-
-    forEach(mod.dependencies, function(subId) {
-      var subNode = graph.add(subId)
-      node.addEdge(subNode)
-      addDep(subNode, seajs.cache[mod.resolve(subId)])
-    })
-  }
-
-  // Helpers
-
-  var indexOf = [].indexOf ?
-      function(arr, item) {
-        return arr.indexOf(item)
-      } :
-      function(arr, item) {
-        for (var i = 0; i < arr.length; i++) {
-          if (arr[i] === item) {
-            return i
-          }
-        }
-        return -1
-      }
-
-
-  // Register as module
-  define("seajs-health", [], {})
-
-
   function Graph() {
     this.nodes = []
   }
@@ -103,8 +62,8 @@
       for (var i = 0, len = ns.length; i < len; i++) {
         if (ns[i].equals(temp)) {
           return ns[i]
-        } 
-      } 
+        }
+      }
 
       var node = new Node(name)
       node.data = data
@@ -112,48 +71,56 @@
       return node
     },
 
-    // 获取排序好的模块.
-    sort: function() {
+    getCircleNodes: function() {
+      // L <- Empty array that will contain the sorted elements
       var L = []
+
+      // S <- Array of all nodes with no incoming edges
       var S = []
-      this.nodes.forEach(function(node) {
+
+      forEach(this.nodes, function(node) {
         if (node.inEdges.length == 0) {
           S.push(node)
-        } 
+        }
       })
 
+      // while S is non-empty do
       while(S.length) {
+
+        // remove a node n from S
         var node = S.shift()
+
+        // insert n into L
         L.push(node)
 
+        // for each node with outEdges do
         while(node.outEdges.length) {
+
+          // remove edge e from the node
           var e = node.outEdges.shift()
-          var m = e.to 
+          var m = e.to
+
+          // remove edge form m
           e.remove()
 
+          // if m has no other incoming edges then insert m into S
           if (m.inEdges.length == 0) {
             S.push(m)
           }
         }
       }
 
-      var cycleNodes = this.nodes.filter(function(node) {
+      // Check to see if all edges are removed
+      return this.nodes.filter(function(node) {
         return node.inEdges.length != 0
       })
-
-      if (cycleNodes.length) {
-        printCycleNode(cycleNodes)
-        throw new Error('发现模块的循环依赖')
-      } else {
-        return L.reverse()
-      }
     },
 
     clone: function() {
       var g = new Graph()
 
       this.nodes.forEach(function(node) {
-        var n = g.add(node.name, node.data) 
+        var n = g.add(node.name, node.data)
         node.outEdges.forEach(function(e) {
           var to = e.to
           n.addEdge(g.add(to.name, to.data))
@@ -169,22 +136,23 @@
     this.outEdges = []
     this.depth = 0
   }
-  
+
   Node.prototype = {
     addEdge: function(node) {
       var e = new Edge(this, node)
       this.outEdges.push(e)
       node.inEdges.push(e)
-      // 增加边的时候，深度加1
+
+      // When adding edges, plus 1 depth
       node.setDepth(this.depth + 1)
       return this
     },
-  
+
     setDepth: function(depth) {
-      if (depth < this.depth) return 
+      if (depth < this.depth) return
       this.depth = depth
     },
-  
+
     equals: function(node) {
       return node.name == this.name
     }
@@ -194,13 +162,13 @@
     this.from = from
     this.to = to
   }
-  
+
   Edge.prototype = {
     equals: function(edge) {
       return edge.from == this.from && edge.to == this.to
     },
-  
-    // 入边删除
+
+    // remove incoming edge
     remove: function() {
       var toInEdges = this.to.inEdges.slice(0)
       for (var i = 0, len = toInEdges.length; i < len; i++) {
@@ -222,25 +190,63 @@
     }))
   }
 
+  function addDep(node, mod) {
+    if (!mod) return
+
+    forEach(mod.dependencies, function(subId) {
+      var subNode = graph.add(subId)
+      node.addEdge(subNode)
+      addDep(subNode, cachedMods[mod.resolve(subId)])
+    })
+  }
 
   var graph = new Graph()
+
   function getCircles() {
     var roots = []
 
-    for (var key in seajs.cache) {
-       console.info('--------->', key)
-          console.info('--->', graph)
-          window.graph = graph
+    for (var key in cachedMods) {
       if (isRoot(key)) {
-        var mod = seajs.cache[key]
+        var mod = cachedMods[key]
         var node = graph.add(key)
         addDep(node, mod)
       }
     }
 
-    return "NOT Available"
+    return {
+        circles: graph.getCircleNodes(),
+        nodes: graph.nodes
+    }
   }
 
+  // Helpers
+
+  function isRoot(id) {
+    return /_use_\d+$/.test(id)
+  }
+
+  function forEach(arrs, cb) {
+    for (var i = 0, len = arrs.length; i < len; i++) {
+      cb(arrs[i], i)
+    }
+  }
+
+
+  var indexOf = [].indexOf ?
+      function(arr, item) {
+        return arr.indexOf(item)
+      } :
+      function(arr, item) {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i] === item) {
+            return i
+          }
+        }
+        return -1
+      }
+
+
+  // Register as module
+  define("seajs-health", [], {})
+
 })(seajs);
-
-
